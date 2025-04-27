@@ -1,0 +1,21 @@
+{
+  "name": "terminal-slot",
+  "version": "1.0.0",
+  "description": "A terminal simulation of Amatic's \"Hot Scatter\" slot.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "@ntanis-dev",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "cli-progress": "^3.10.0",
+    "keypress": "^0.2.1",
+    "strip-ansi": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/keypress": "^2.0.30"
+  }
+}
