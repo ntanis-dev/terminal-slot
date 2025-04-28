@@ -5,7 +5,7 @@
 This project is a terminal simulation of [Amatic](https://www.amatic.com/)'s "**Hot Scatter**" slot.\
 It allows you to play the slot game, to optimize the RTP of the game, to simulate spins, and to simulate bonus buys.
 
-![Preview](https://i.imgur.com/peAQU2r.gif)
+![Preview](https://i.imgur.com/0fyr8lo.gif)
 
 ## Features
 
