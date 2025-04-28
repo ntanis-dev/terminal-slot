@@ -15,7 +15,9 @@ class HotScatter {
     constructor() {
         process.title = 'HOT SCATTER'
 
-        this.settings = {}
+        this.settings = {
+            alwaysSpin: []
+        }
 
         this.consoleArt = chalk.bold(`${chalk.hex('e43606')('H')}${chalk.hex('dc5414')('O')}${chalk.hex('da5238')('T')} ${chalk.hex('ffd700')('SCATTER')}`)
 
