@@ -7,6 +7,9 @@
   "scripts": {
     "start": "node index.js"
   },
+  "bin": {
+    "gamba": "./index.js"
+  },
   "author": "@ntanis-dev",
   "license": "ISC",
   "dependencies": {
