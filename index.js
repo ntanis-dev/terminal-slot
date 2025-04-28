@@ -16,6 +16,7 @@ const mode = MODES.PLAY // PLAY or OPTIMIZE_RTP or SIMULATE_SPINS or SIMULATE_BU
 //      Cheats
 //          r = Reset Balance (500.00 €)
 //          c = Clear Balance (0.00 €)
+//          b = Minimum Bonus Spin
 //          m = Minimum Win Spin
 //          n = No Win Spin
 
@@ -25,7 +26,8 @@ switch (mode) {
         Slot.play({
             minimumPreSpinTimeMs: 500,                  // The minimum pre-spin (visual) time in milliseconds.
             minimumPreSpinTimeTeaseMs: 2500,            // The minimum pre-spin (visual) time for bonus tease in milliseconds.
-            minimumWinKeyMultiplier: 50,                // The minimum win to look for when pressing the minimum win key.
+            minimumWinKeyMultiplier: 50,                // The minimum win to look for when pressing the minimum win spin key.
+            minimumBonusKeyAmount: 50,                  // The minimum amount of scatter symbols to look for when pressing the minimum bonus spin key.
             simulatedServerResponseMs: [50, 100],       // The simulated server response time in milliseconds.
             alwaysSpin: []                              // An array of stop positions to always spin to, useful to see a specific spin out of a simulation.
         })

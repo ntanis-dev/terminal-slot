@@ -59,6 +59,7 @@ npm start
 
 - `r` = Reset Balance (500.00 €)
 - `c` = Clear Balance (0.00 €)
+- `b` = Minimum Bonus Spin
 - `m` = Minimum Win Spin
 - `n` = No Win Spin
 

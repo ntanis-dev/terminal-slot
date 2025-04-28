@@ -23,8 +23,8 @@ class HotScatter {
 
         this.symbols = [
             {
-                name: 'seven',
-                emoji: '💰',
+                name: 'diamond',
+                emoji: '💎',
                 payouts: [0, 10, 100, 500]
             },
 
@@ -41,8 +41,8 @@ class HotScatter {
             },
 
             {
-                name: 'blueberry',
-                emoji: '🫐',
+                name: 'strawberry',
+                emoji: '🍓',
                 payouts: [0, 2, 5, 20]
             },
 
@@ -68,7 +68,7 @@ class HotScatter {
                 name: 'scatter',
                 emoji: '✨',
                 payouts: [0, 2, 10, 50]
-            },
+            }
         ]
 
         for (let index = 0; index < this.symbols.length; index++)
@@ -179,7 +179,7 @@ class HotScatter {
 
         this.spinPhrases = [
             'Good Luck',
-            'Lets Win'
+            'Let\s Win'
         ]
 
         this.startPositions = [17, 18, 10, 15, 27]
@@ -474,7 +474,7 @@ class HotScatter {
                                 line: v,
                                 count: this.bonusGame ? this.bonusReels.length : this.reels.length
                             }
-                        }), 2, 250, 50), 500)
+                        }), 0, 2, 250, 50), 500)
 
                         break
 
@@ -497,7 +497,7 @@ class HotScatter {
                                 line: v,
                                 count: this.bonusGame ? this.bonusReels.length : this.reels.length
                             }
-                        }), 2, 250, 50), 500)
+                        }), 0, 2, 250, 50), 500)
 
                         break
 
@@ -513,15 +513,23 @@ class HotScatter {
                         break
 
                     case 'm':
-                        if (this.simulating || this.spinning)
+                        if (this.simulating || this.spinning || this.autoSpin || this.settings.alwaysSpin.length > 0 || this.replayingSpin)
                             return
 
                         this.tryToSpin(this.settings.minimumWinKeyMultiplier)
                         
                         break
 
+                    case 'b':
+                        if (this.simulating || this.spinning || this.autoSpin || this.settings.alwaysSpin.length > 0 || this.replayingSpin)
+                            return
+
+                        this.tryToSpin(null, null, 5)
+                        
+                        break
+
                     case 'n':
-                        if (this.simulating || this.spinning)
+                        if (this.simulating || this.spinning || this.autoSpin || this.settings.alwaysSpin.length > 0 || this.replayingSpin)
                             return
 
                         this.tryToSpin(null, 0)
@@ -649,7 +657,7 @@ class HotScatter {
                         count: v.count,
                         text: chalk.bold(`${v.scatter ? this.symbols.filter(v => v.name === 'scatter')[0].emoji.repeat(v.count) : `${chalk.hex(this.lines[v.line].hex)(`[${v.line + 1}]`)} ${this.symbols[v.symbol].emoji.repeat(v.count)}`}${this.bonusGame ? ' x3 =' : ''} ${v.payout.toFixed(2)} €`)
                     }
-                }), 5, 350, 50, 250, true, () => {
+                }), 250, 5, 350, 50, 250, true, () => {
                     if (this.autoSpin)
                         this.tryToSpin()
                 })
@@ -732,7 +740,7 @@ class HotScatter {
         })
     }
 
-    startSpin(minMultiplier, maxMultiplier) {
+    startSpin(minMultiplier, maxMultiplier, minBonusSymbols) {
         this.spinning = true
         this.pendingSpin = true
 
@@ -764,24 +772,24 @@ class HotScatter {
             this.finalizeSpin()
         } else
             sleep(randomNumber(this.settings.simulatedServerResponseMs[0], this.settings.simulatedServerResponseMs[1])).then(() => {
-                this.generateSpin()
+                this.generateSpin(false, minBonusSymbols)
                 this.finalizeSpin(minMultiplier, maxMultiplier)
             })
     }
 
-    tryToSpin(minMultiplier, maxMultiplier) {
+    tryToSpin(minMultiplier, maxMultiplier, minBonusSymbols) {
         if (this.pendingSpin)
             return
 
         if (this.replayingSpin || (this.bonusGame && this.bonusGame.left > 0))
-            this.startSpin(minMultiplier, maxMultiplier)
+            this.startSpin(minMultiplier, maxMultiplier, minBonusSymbols)
         else if (this.balance < (this.betsPerLine[this.playingBet] * this.playingLines)) {
             this.showText(chalk.bold('Not Enough Balance'), 5, 250, 200)
             this.autoSpin = false
         } else {
             this.balance -= (this.betsPerLine[this.playingBet] * this.playingLines)
             this.updatePersistentData()
-            this.startSpin(minMultiplier, maxMultiplier)
+            this.startSpin(minMultiplier, maxMultiplier, minBonusSymbols)
         }
     }
 
@@ -797,20 +805,16 @@ class HotScatter {
                 if (inMs)
                     await sleep(inMs)
 
-                if (animationId !== this.rendererData.showText.animationId || (retain && i === times - 1)){
-                    resolve()
+                if (animationId !== this.rendererData.showText.animationId || (retain && i === times - 1))
                     return
-                }
 
                 this.rendererData.showText.text = ' '
                 
                 if (outMs)
                     await sleep(outMs)
 
-                if (animationId !== this.rendererData.showText.animationId){
-                    resolve()
+                if (animationId !== this.rendererData.showText.animationId)
                     return
-                }
             }
 
             this.rendererData.showText.text = null
@@ -820,8 +824,6 @@ class HotScatter {
 
             if (finishedCb)
                 finishedCb()
-
-            resolve()
         })
     }
 
@@ -837,25 +839,19 @@ class HotScatter {
                 if (inMs)
                     await sleep(inMs)
 
-                if (animationId !== this.rendererData.showSubtext.animationId || (retain && i === times - 1)){
-                    resolve()
+                if (animationId !== this.rendererData.showSubtext.animationId || (retain && i === times - 1))
                     return
-                }
 
                 this.rendererData.showSubtext.text = ' '
                 
                 if (outMs)
                     await sleep(outMs)
 
-                if (animationId !== this.rendererData.showSubtext.animationId) {
-                    resolve()
+                if (animationId !== this.rendererData.showSubtext.animationId)
                     return
-                }
             }
 
             this.rendererData.showSubtext.text = null
-
-            resolve()
         })
     }
 
@@ -871,25 +867,19 @@ class HotScatter {
                 if (inMs)
                     await sleep(inMs)
 
-                if (animationId !== this.rendererData.showFreeGamesText.animationId || (retain && i === times - 1)){
-                    resolve()
+                if (animationId !== this.rendererData.showFreeGamesText.animationId || (retain && i === times - 1))
                     return
-                }
 
                 this.rendererData.showFreeGamesText.text = ' '
                 
                 if (outMs)
                     await sleep(outMs)
 
-                if (animationId !== this.rendererData.showFreeGamesText.animationId) {
-                    resolve()
+                if (animationId !== this.rendererData.showFreeGamesText.animationId)
                     return
-                }
             }
 
             this.rendererData.showFreeGamesText.text = null
-
-            resolve()
         })
     }
 
@@ -905,34 +895,34 @@ class HotScatter {
                 if (inMs)
                     await sleep(inMs)
 
-                if (animationId !== this.rendererData.showFreeGamesSubtext.animationId || (retain && i === times - 1)){
-                    resolve()
+                if (animationId !== this.rendererData.showFreeGamesSubtext.animationId || (retain && i === times - 1))
                     return
-                }
 
                 this.rendererData.showFreeGamesSubtext.text = ' '
                 
                 if (outMs)
                     await sleep(outMs)
 
-                if (animationId !== this.rendererData.showFreeGamesSubtext.animationId) {
-                    resolve()
+                if (animationId !== this.rendererData.showFreeGamesSubtext.animationId)
                     return
-                }
             }
 
             this.rendererData.showFreeGamesSubtext.text = null
-
-            resolve()
         })
     }
 
-    showLines(lines, timesPerLine, inMs, outMs, loopDelayMs, keep, finishedLoopCb) {
+    showLines(lines, initialDelayMs, timesPerLine, inMs, outMs, loopDelayMs, keep, finishedLoopCb) {
         this.rendererData.showLine.animationId++
 
         const animationId = this.rendererData.showLine.animationId
 
         new Promise(async (resolve, reject) => {
+            if (initialDelayMs)
+                await sleep(initialDelayMs)
+
+            if (animationId !== this.rendererData.showLine.animationId)
+                return
+
             while (true) {
                 for (let index = 0; index < lines.length; index++)
                     for (let ii = 0; ii < timesPerLine; ii++) {
@@ -952,37 +942,29 @@ class HotScatter {
 
                         await sleep(inMs)
 
-                        if (animationId !== this.rendererData.showLine.animationId) {
-                            resolve()
+                        if (animationId !== this.rendererData.showLine.animationId)
                             return
-                        }
 
                         if (!keep)
                             this.rendererData.showLine.active = null
 
                         await sleep(outMs)
 
-                        if (animationId !== this.rendererData.showLine.animationId) {
-                            resolve()
+                        if (animationId !== this.rendererData.showLine.animationId)
                             return
-                        }
                     }
 
-                    if (!loopDelayMs)
-                        break
+                if (!loopDelayMs)
+                    break
 
-                    await sleep(loopDelayMs)
+                await sleep(loopDelayMs)
 
-                    if (finishedLoopCb)
-                        finishedLoopCb()
-    
-                    if (animationId !== this.rendererData.showLine.animationId) {
-                        resolve()
-                        return
-                    }
-                }
+                if (finishedLoopCb)
+                    finishedLoopCb()
 
-            resolve()
+                if (animationId !== this.rendererData.showLine.animationId)
+                    return
+            }
         })
     }
 
@@ -1726,16 +1708,27 @@ class HotScatter {
         process.exit(0)
     }
 
-    generateSpin(re = false) {
+    generateSpin(real = false, minBonusSymbols) {
         let stopPositions = []
 
         const reels = this.bonusGame ? this.bonusReels : this.reels
+        const bonusSymbol = this.symbols.indexOf(this.symbols.filter(v => v.name === 'scatter')[0])
 
         if (this.settings.alwaysSpin.length > 0)
             stopPositions = this.settings.alwaysSpin.slice()
         else
-            for (let index = 0; index < reels.length; index++)
-                stopPositions[index] = this.cryptoRNG ? crypto.randomInt(0, reels[index].length) : randomNumber(0, reels[index].length - 1)
+            if (minBonusSymbols)
+                for (let index = 0; index < reels.length; index++) {
+                    const bonusStops = minBonusSymbols > index ? reels[index].map((symbol, i) => bonusSymbol === symbol ? i : -1).filter(v => v !== -1) : []
+
+                    stopPositions[index] = minBonusSymbols > index && bonusStops.length > 0 ? bonusStops[this.cryptoRNG ? crypto.randomInt(0, bonusStops.length) : randomNumber(0, bonusStops.length - 1)] - (this.cryptoRNG ? crypto.randomInt(1, 3) : randomNumber(1, 2)) : (this.cryptoRNG ? crypto.randomInt(0, reels[index].length) : randomNumber(0, reels[index].length - 1))
+
+                    if (stopPositions[index] < 0)
+                        stopPositions[index] = reels[index].length + stopPositions[index]
+                }
+            else
+                for (let index = 0; index < reels.length; index++)
+                    stopPositions[index] = this.cryptoRNG ? crypto.randomInt(0, reels[index].length) : randomNumber(0, reels[index].length - 1)
 
         this.lastSpin.timestamp = Date.now()
         this.lastSpin.previousStopPositions = this.lastSpin.stopPositions.slice()
@@ -1743,7 +1736,7 @@ class HotScatter {
         this.lastSpin.win = null
         this.lastSpin.finished = false
 
-        if ((!re) && this.bonusGame) {
+        if ((!real) && this.bonusGame) {
             this.bonusGame.current++
             this.bonusGame.left--
         }
