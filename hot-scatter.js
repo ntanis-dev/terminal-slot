@@ -246,15 +246,15 @@ class HotScatter {
 
         this.replayingSpin = false
 
-        this.balance = 0.0
-        this.playingBet = 0
+        this.balance = 500.00
+        this.playingBet = 7
         this.playingLines = this.lines.length
 
         this.lastSpin = {
             stopPositions: this.startPositions.slice(),
             timestamp: Date.now(),
             win: null,
-            finished: false,
+            finished: true,
             previousStopPositions: this.startPositions.slice(),
             previousInBonus: false,
             inBonus: false
@@ -408,7 +408,7 @@ class HotScatter {
                         if (this.simulating)
                             return
 
-                        this.balance = 500.0
+                        this.balance = 500.00
                         this.persistentData.balance = this.balance
 
                         break
@@ -417,7 +417,7 @@ class HotScatter {
                         if (this.simulating)
                             return
 
-                        this.balance = 0.0
+                        this.balance = 0.00
                         this.persistentData.balance = this.balance
 
                         break
