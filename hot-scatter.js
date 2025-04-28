@@ -524,7 +524,7 @@ class HotScatter {
                         if (this.simulating || this.spinning || this.autoSpin || this.settings.alwaysSpin.length > 0 || this.replayingSpin)
                             return
 
-                        this.tryToSpin(null, null, 5)
+                        this.tryToSpin(null, null, this.settings.minimumBonusKeyAmount)
                         
                         break
 
