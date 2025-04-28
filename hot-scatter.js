@@ -1945,13 +1945,13 @@ class HotScatter {
         const bet = (this.betsPerLine[this.playingBet] * this.playingLines)
 
         if (typeof(maxMultiplier) === 'number')
-            while (lookups <= 25000 && (winnings.totalWin / bet) > maxMultiplier) {
+            while (lookups <= 250000 && (winnings.totalWin / bet) > maxMultiplier) {
                 this.generateSpin(true)
                 winnings = this.getLastSpinWinningsAndFreeGames()
                 lookups++
             }
         else if (minMultiplier)
-            while (lookups <= 25000 && (winnings.totalWin / bet) < minMultiplier) {
+            while (lookups <= 250000 && (winnings.totalWin / bet) < minMultiplier) {
                 this.generateSpin(true)
                 winnings = this.getLastSpinWinningsAndFreeGames()
                 lookups++
