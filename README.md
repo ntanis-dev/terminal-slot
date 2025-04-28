@@ -44,6 +44,15 @@ To run the project, use the following command (the default mode is PLAY):
 npm start
 ```
 
+To link the project:
+```sh
+npm link
+```
+
+And then you can run the project by using the `gamba` command anywhere.
+
+![GAMBA](https://i.imgur.com/VthYgPm.gif)
+
 ### Keybinds
 
 - `i` = Show Information
