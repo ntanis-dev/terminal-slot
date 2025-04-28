@@ -128,7 +128,7 @@ class HotScatter {
 
         this.rows = 3
 
-        this.reels = [
+        this.reels = [          // The original Hot Scatter reels by Amatic.
             [5, 7, 5, 5, 6, 6, 6, 5, 5, 1, 1, 4, 1, 4, 4, 5, 4, 3, 0, 3, 3, 3, 2, 2, 5, 5, 5, 2, 2, 4, 4, 6, 4, 2, 2, 5, 4],
             [5, 5, 1, 1, 0, 1, 6, 6, 6, 7, 3, 3, 3, 4, 4, 2, 4, 2, 2, 0, 6, 6, 5, 5, 5, 1, 1, 3, 3, 6, 6, 6, 4, 4, 6, 4, 0, 2, 1, 1],
             [5, 5, 5, 0, 6, 6, 6, 7, 4, 4, 4, 0, 4, 1, 1, 1, 3, 3, 3, 5, 5, 5, 2, 2, 6, 2, 3, 3, 3, 4, 4, 6, 6, 6, 0, 4, 4, 2, 4],
@@ -136,7 +136,7 @@ class HotScatter {
             [5, 7, 5, 5, 1, 1, 4, 6, 6, 4, 4, 4, 4, 3, 3, 3, 5, 0, 6, 6, 2, 2, 0, 3, 3, 6, 6, 6, 0, 1, 5, 5, 5, 2, 2, 1, 1, 4, 4, 0]
         ]
 
-        this.bonusReels = [
+        this.bonusReels = [     // The original Hot Scatter reels by Amatic.
             [7, 6, 6, 6, 5, 5, 1, 4, 4, 3, 0, 3, 3, 6, 6, 6, 5, 5, 5, 2, 4],
             [0, 6, 6, 7, 3, 3, 4, 4, 2, 2, 6, 5, 5, 6, 6, 6, 5, 5, 5, 1, 4, 6],
             [5, 5, 5, 6, 6, 6, 7, 4, 4, 0, 1, 5, 5, 5, 2, 2, 6, 6, 3, 3, 4, 4, 6],
@@ -1393,15 +1393,8 @@ class HotScatter {
                 totalWin: 0
             }
 
-        if (options.lines)
-            this.playingLines = options.lines
-        else
-            this.playingLines = this.lines.length
-
-        if (typeof(options.bet) === 'number')
-            this.playingBet = options.bet
-        else
-            this.playingBet = 0
+        this.playingLines = this.lines.length
+        this.playingBet = 0
 
         const bet = this.betsPerLine[this.playingBet] * this.playingLines
 
@@ -1571,7 +1564,7 @@ class HotScatter {
 
             console.log(`${this.consoleArt} Simulation\n`)
 
-            console.log(chalk.bold(`${chalk.yellow(bet.toFixed(2))} € Bet • ${chalk.yellow(this.playingLines)} Line${this.playingLines === 1 ? '' : 's'} • ${chalk.yellow(data.totalBaseSpins.toLocaleString())} Base Spins • ${chalk.yellow(data.totalFreeSpins.toLocaleString())} Free Spins `))
+            console.log(chalk.bold(`${chalk.yellow(data.totalBaseSpins.toLocaleString())} Base Spins • ${chalk.yellow(data.totalFreeSpins.toLocaleString())} Free Spins `))
             
             console.log(chalk.bold(`\nBase Hit Frequency: ${chalk.hex('ff6600')(data.baseHitFrequency.toFixed(2))}`))
             console.log(chalk.bold(`Free Hit Frequency: ${chalk.green(data.freeHitFrequency.toFixed(2))}`))
@@ -1617,11 +1610,8 @@ class HotScatter {
         process.stdin.setRawMode(false)
         process.stdin.pause()
 
-        if (typeof(options.bet) !== 'number')
-            options.bet = this.betsPerLine.length - 1
-
-        if (!options.lines)
-            options.lines = this.lines.length
+        options.bet = this.betsPerLine.length - 1
+        options.lines = this.lines.length
 
         const bar = new cliProgress.SingleBar({
             format: `${this.consoleArt} | Simulating Bonus Buys | ${chalk.yellow('{bar}')} | ~{percentage}% | ETA: ~{eta_formatted}`
@@ -1637,7 +1627,7 @@ class HotScatter {
             },
 
             highBuys: [],
-            highBuyMultipliers: options.highBuyMultipliers || [100],
+            highReturnMultipliers: options.highReturnMultipliers || [100],
             totalBuysMultiplier: 0,
             totalBet: 0,
             totalLines: 0,
@@ -1647,17 +1637,12 @@ class HotScatter {
             worstBuy: null
         }
 
-        data.highBuyMultipliers.sort((a, b) => b - a)
+        data.highReturnMultipliers.sort((a, b) => b - a)
 
-        for (let index = 0; index < data.highBuyMultipliers.length; index++)
+        for (let index = 0; index < data.highReturnMultipliers.length; index++)
             data.highBuys[index] = 0
 
         for (let index = 0; index < buys; index++) {
-            if (options.randomLinesAndBet) {
-                options.lines = Math.floor((Math.random() * this.lines.length) + 1)
-                options.bet = Math.floor(Math.random() * ((this.betsPerLine.length - 1) + 1))
-            }
-
             this.playingBet = options.bet
             this.playingLines = options.lines
 
@@ -1687,8 +1672,8 @@ class HotScatter {
 
             const multiplier = balance / bet
 
-            for (let index = 0; index < data.highBuyMultipliers.length; index++)
-                if (multiplier >= data.highBuyMultipliers[index]) {
+            for (let index = 0; index < data.highReturnMultipliers.length; index++)
+                if (multiplier >= data.highReturnMultipliers[index]) {
                     data.highBuys[index]++
                     break
                 }
@@ -1722,18 +1707,17 @@ class HotScatter {
 
         console.log(`${this.consoleArt} Bonus Buys Simulation\n`)
 
-        console.log(chalk.bold(`Cost: x${chalk.yellow(priceMultiplier.toFixed(2))} • ${chalk.yellow(buys.toLocaleString())} Buys`))
-        console.log(chalk.bold(`${chalk.yellow((options.randomLinesAndBet ? (data.totalBet / buys) : (this.betsPerLine[options.bet] * options.lines)).toFixed(2))} € ${options.randomLinesAndBet ? 'Average ' : ''}Bet • ${chalk.yellow(options.randomLinesAndBet ? Math.round(data.totalLines / buys) : options.lines)} ${options.randomLinesAndBet ? 'Average ' : ''}Line${options.lines === 1 ? '' : 's'}\n`))
+        console.log(chalk.bold(`x${chalk.yellow(priceMultiplier.toFixed(2))} Cost • ${chalk.yellow(buys.toLocaleString())} Buys`))
 
         console.log(chalk.bold(`${chalk.cyan(data.zeroBuys.toLocaleString())} Zero Buys • ${chalk.cyan(data.lossBuys.toLocaleString())} Loss Buys • ${chalk.cyan(data.breakEvenOrProfitBuys.toLocaleString())} Break Even or Profit Buys\n`))
 
         console.log(chalk.bold(`Best Buy: x${chalk.red((data.bestBuy.value).toFixed(2))}${options.randomLinesAndBet ? ` (${chalk.red((data.bestBuy.bet * data.bestBuy.lines).toFixed(2))} € Total Bet • ${chalk.red(data.bestBuy.lines)} Line${data.bestBuy.lines === 1 ? '' : 's'})` : ''}`))
         console.log(chalk.bold(`Worst Buy: x${chalk.green(data.worstBuy.toFixed(2))}\n`))
  
-        console.log(chalk.bold(`High Buys:`))
+        console.log(chalk.bold(`High Return Buys:`))
 
-        for (let index = data.highBuyMultipliers.length - 1; index >= 0; index--)
-            console.log(chalk.bold(`    x${chalk.hex('ff69b4')((data.highBuyMultipliers[index]).toFixed(2))} Multiplier • ${chalk.hex('ff69b4')((data.highBuys[index]).toLocaleString())} Wins`))
+        for (let index = data.highReturnMultipliers.length - 1; index >= 0; index--)
+            console.log(chalk.bold(`    x${chalk.hex('ff69b4')((data.highReturnMultipliers[index]).toFixed(2))} Multiplier • ${chalk.hex('ff69b4')((data.highBuys[index]).toLocaleString())} Wins`))
 
         console.log(chalk.bold(`\nTotal RTP: ${chalk.yellow(((data.totalBuysMultiplier / (buys * priceMultiplier)) * 100).toFixed(4))}%`))
 
@@ -2184,4 +2168,11 @@ class HotScatter {
     }
 }
 
-export default new HotScatter()
+export const Slot = new HotScatter()
+
+export const MODES = {
+    PLAY: 0,
+    OPTIMIZE: 1,
+    SIMULATE_SPINS: 2,
+    SIMULATE_BUYS: 3
+}

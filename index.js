@@ -1,60 +1,97 @@
-import HotScatter from './hot-scatter.js'
+import {Slot, MODES} from './hot-scatter.js'
 
-HotScatter.play({
-    minimumPreSpinTimeMs: 500,
-    minimumPreSpinTimeTeaseMs: 2500,
-    minimumWinKeyMultiplier: 50,
-    simulatedServerResponseMs: [50, 100],
-    alwaysSpin: []
-})
+const mode = MODES.PLAY // PLAY or OPTIMIZE_RTP or SIMULATE_SPINS or SIMULATE_BUYS
 
-// HotScatter.optimizeRtp({
-//     targetMin: 80.0,
-//     targetMax: 82.0,
-//     maxIterations: 50,
-//     runsPerIteration: 1000000,
-//     type: 'base',
-//     cryptoRNG: true,
-//     ignoreMaxOptimizations: true,
-//     maintainStackedSymbols: false,
+//  Keybinds
+// 
+//      i = Show Information
+//      t = Toggle Turbo Spin
+//      a = Toggle Auto Spin
+//      arrow up = Increase Lines
+//      arrow down = Decrease Lines
+//      arrow right = Increase Bet
+//      arrow left = Decrease Bet
+//      spacebar = Start Spin / Stop Spin
+// 
+//      Cheats
+//          r = Reset Balance (500.00 €)
+//          c = Clear Balance (0.00 €)
+//          m = Minimum Win Spin
+//          n = No Win Spin
 
-//     minimumSymbolsPerReel: [
-//         [1, 1, 1, 1, 1, 1, 1, 1],
-//         [1, 1, 1, 1, 1, 1, 1, 1],
-//         [1, 1, 1, 1, 1, 1, 1, 1],
-//         [1, 1, 1, 1, 1, 1, 1, 1],
-//         [1, 1, 1, 1, 1, 1, 1, 1]
-//     ],
+switch (mode) {
+    case MODES.PLAY:
+        // To play the game.
+        Slot.play({
+            minimumPreSpinTimeMs: 500,                  // The minimum pre-spin (visual) time in milliseconds.
+            minimumPreSpinTimeTeaseMs: 2500,            // The minimum pre-spin (visual) time for bonus tease in milliseconds.
+            minimumWinKeyMultiplier: 50,                // The minimum win to look for when pressing the minimum win key.
+            simulatedServerResponseMs: [50, 100],       // The simulated server response time in milliseconds.
+            alwaysSpin: []                              // An array of stop positions to always spin to, useful to see a specific spin out of a simulation.
+        })
+        
+        break
 
-//     skipSymbols: [7]
-// })
+    case MODES.OPTIMIZE_RTP:
+        // To attempt and optimize the reels either way.
+        Slot.optimizeRtp({
+            targetMin: 58.0,                        // The minimum target RTP to aim for.
+            targetMax: 60.0,                        // The maximum target RTP to aim for.
+            maxIterations: 50,                      // The maximum iterations of attempts to perform.
+            runsPerIteration: 1000000,              // The spin runs per iteration, to gather the RTP in real time.
+            type: 'base',                           // Whether we are optimizing base game or bonus game, 'base' or 'bonus'.
+            cryptoRNG: false,                       // Whether to use cryptographically secure random generation to for the spins.
+            ignoreMaxOptimizations: true,           // Whether to ignore max optimizations reach (same reels).
+            maintainStackedSymbols: false,          // Whether to maintain stacked symbols in reels.
 
-// HotScatter.simulateSpins(10000000, {
-//     bet: 0,
-//     lines: 10,
+            minimumSymbolsPerReel: [                // The minimum number of symbols per reel.
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1, 1]
+            ],
 
-//     highWinMultipliers: [
-//         100,
-//         250,
-//         500,
-//         1000,
-//         1500
-//     ],
+            skipSymbols: [7]                        // The symbols to skip (never change).
+        })
 
-//     cryptoRNG: false
-// })
+        break
 
-// HotScatter.simulateBonusBuys(100000, 85, {
-//     randomLinesAndBet: false,
-//     cryptoRNG: true,
-//     bet: 5,
-//     lines: 10,
+    case MODES.SIMULATE_SPINS:
+        // To simulate game spins.
+        Slot.simulateSpins(1000000, {
+                                // ^ The amount of spins to simulate.
+            cryptoRNG: false,           // Whether to use cryptographically secure random generation to for the spins.
+        
+            highWinMultipliers: [       // The spin x multipliers to log as "high wins".
+                100,
+                250,
+                500,
+                1000,
+                1500
+            ]
+        })
 
-//     highBuyMultipliers: [
-//         100,
-//         250,
-//         500,
-//         1000,
-//         1500
-//     ],
-// })
+        break
+
+    case MODES.SIMULATE_BUYS:
+        // To simulate bonus buys.
+        Slot.simulateBonusBuys(100000, 85, {
+            //                                ^ The cost of the buy calculate the RTP based off it.
+            //                        ^ The amount of buys to simulate.
+            cryptoRNG: false,           // Whether to use cryptographically secure random generation to for the spins.
+        
+            highReturnMultipliers: [    // The buy x multipliers to log as "high return", based on final x, not buy x.
+                100,
+                250,
+                500,
+                1000,
+                1500
+            ],
+        })
+
+        break
+
+    default:
+        throw new Error('Unknown mode.')
+}
