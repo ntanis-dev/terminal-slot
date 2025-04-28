@@ -2049,9 +2049,6 @@ class HotScatter {
     }
 
     render() {
-        if (this.simulating)
-            return
-
         const now = new Date()
         const ts = now.getTime()
         const reels = this.bonusGame ? this.bonusReels : this.reels
