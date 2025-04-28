@@ -2172,7 +2172,7 @@ export const Slot = new HotScatter()
 
 export const MODES = {
     PLAY: 0,
-    OPTIMIZE: 1,
+    OPTIMIZE_RTP: 1,
     SIMULATE_SPINS: 2,
     SIMULATE_BUYS: 3
 }
