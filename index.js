@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {Slot, MODES} from './hot-scatter.js'
 
 const mode = MODES.PLAY // PLAY or OPTIMIZE_RTP or SIMULATE_SPINS or SIMULATE_BUYS
