@@ -657,7 +657,7 @@ class HotScatter {
                         count: v.count,
                         text: chalk.bold(`${v.scatter ? this.symbols.filter(v => v.name === 'scatter')[0].emoji.repeat(v.count) : `${chalk.hex(this.lines[v.line].hex)(`[${v.line + 1}]`)} ${this.symbols[v.symbol].emoji.repeat(v.count)}`}${this.bonusGame ? ' x3 =' : ''} ${v.payout.toFixed(2)} €`)
                     }
-                }), 250, 5, 350, 50, 250, true, () => {
+                }), 150, 5, 350, 50, 250, true, () => {
                     if (this.autoSpin)
                         this.tryToSpin()
                 })
