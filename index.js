@@ -7,10 +7,10 @@ const mode = MODES.PLAY // PLAY or OPTIMIZE_RTP or SIMULATE_SPINS or SIMULATE_BU
 //      i = Show Information
 //      t = Toggle Turbo Spin
 //      a = Toggle Auto Spin
-//      arrow up = Increase Lines
-//      arrow down = Decrease Lines
-//      arrow right = Increase Bet
-//      arrow left = Decrease Bet
+//      arrow up = Increase Bet
+//      arrow down = Decrease Bet
+//      arrow right = Increase Lines
+//      arrow left = Decrease Lines
 //      spacebar = Start Spin / Stop Spin
 // 
 //      Cheats
