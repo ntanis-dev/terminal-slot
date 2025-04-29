@@ -126,4 +126,4 @@ The original “**Hot Scatter**” game concept and artwork are the exclusive pr
 This project was created in a weekend out of appreciation for their slot games.\
 The reels used were extracted from an online demo of the game and may differ from the official versions.\
 This project is provided “as-is” for educational and entertainment purposes only.\
-It is not affiliated with, endorsed, sponsored, or approved by **Amatic Industries GmbH**.
+This project is not affiliated with, endorsed, sponsored, or approved by **Amatic Industries GmbH**.
