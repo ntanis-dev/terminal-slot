@@ -2,6 +2,8 @@
   "name": "terminal-slot",
   "version": "1.0.0",
   "description": "A terminal simulation of Amatic's \"Hot Scatter\" slot.",
+  "author": "@ntanis-dev",
+  "license": "ISC",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -10,8 +12,6 @@
   "bin": {
     "gamba": "./index.js"
   },
-  "author": "@ntanis-dev",
-  "license": "ISC",
   "dependencies": {
     "chalk": "^5.0.0",
     "cli-progress": "^3.10.0",
