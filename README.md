@@ -119,3 +119,10 @@ This mode simulates a specified number of bonus buys and logs the results.
 
 There are various settings you can change on each mode.\
 Read the comments in `index.js` file for more information.
+
+## Disclaimer
+
+The original “Hot Scatter” game concept, artwork, and reel configurations are the exclusive property of **Amatic Industries GmbH**.\
+This project was created as a personal weekend project out of appreciation for their slot titles and it is not affiliated nor endorsed by them.\
+The reel data used here were extracted from an online slot and may differ from official or region-specific versions of the game.\
+This implementation is provided “as-is” for educational and entertainment purposes only.
