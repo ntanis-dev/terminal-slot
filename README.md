@@ -123,6 +123,6 @@ Read the comments in `index.js` file for more information.
 ## Disclaimer
 
 The original “**Hot Scatter**” game concept and artwork are the exclusive property of **Amatic Industries GmbH**.\
-This project was created in a weekend out of appreciation for their games and it is not affiliated nor endorsed by them.\
-The reel data used were extracted from an online version of the game and may differ from official or region-specific versions.\
+This weekend project was created out of appreciation for their games and it is not affiliated nor endorsed by them.\
+The reels used were extracted from an online version of the game and may differ from official or region-specific versions.\
 This implementation is provided “as-is” for educational and entertainment purposes only.
