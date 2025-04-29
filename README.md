@@ -1,4 +1,4 @@
-![Terminal Slot](https://github.com/user-attachments/assets/a308068c-0082-43a0-a731-80eab58814a7)
+![Terminal Slot](https://github.com/user-attachments/assets/d7b00104-c0b3-4ede-9e9d-dec9ff49ba15)
 
 # Terminal Slot
 
