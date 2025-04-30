@@ -1,7 +1,7 @@
 {
   "name": "terminal-slot",
   "version": "1.0.0",
-  "description": "A terminal simulation of Amatic's \"Hot Scatter\" slot.",
+  "description": "A terminal adaptation of Amatic's \"Hot Scatter\" slot.",
   "author": "https://github.com/ntanis-dev",
   "license": "ISC",
   "main": "index.js",
