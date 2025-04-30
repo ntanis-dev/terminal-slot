@@ -2,7 +2,7 @@
 
 # Terminal Slot
 
-This project is a terminal simulation of [Amatic](https://www.amatic.com/)'s "**Hot Scatter**" slot.\
+This project is a terminal adaptation of [Amatic](https://www.amatic.com/)'s "**Hot Scatter**" slot.\
 It allows you to play the slot game, to optimize the RTP of the game, to simulate spins, and to simulate bonus buys.
 
 ![Preview](https://i.imgur.com/0fyr8lo.gif)
@@ -10,7 +10,7 @@ It allows you to play the slot game, to optimize the RTP of the game, to simulat
 ## Features
 
 - **Interactive**: Fully animated with reel spins, bonus teases, lines representation, flashing texts and more.
-- **Real RTP**: The simulation is based on original reels and the RTP (Return to Player) is legit.
+- **Real RTP**: The adaptation is based on original reels and the RTP (Return to Player) is legit.
 - **Crypto RNG**: Uses cryptographically secure random number generation for fair and unbiased results.
 - **Bonus Game**: Just like the real game.
 - **Lines**: Allows the player to select the number of active paylines for each spin.
