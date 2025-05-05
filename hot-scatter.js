@@ -3,13 +3,13 @@ import path from 'path'
 import url from 'url'
 import crypto from 'crypto'
 import chalk from 'chalk'
-import stripAnsi from 'strip-ansi'
 import keypress from 'keypress'
 import cliProgress from 'cli-progress'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 const randomValue = a => a[Math.floor(Math.random() * a.length)]
+const stripRegex = new RegExp('[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?(?:\\u0007|\\u001B\\u005C|\\u009C))|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))', 'g')
 
 class HotScatter {
     constructor() {
@@ -179,7 +179,7 @@ class HotScatter {
 
         this.spinPhrases = [
             'Good Luck',
-            'Let\s Win'
+            'Let\'s Win'
         ]
 
         this.startPositions = [17, 18, 10, 15, 27]
@@ -1958,7 +1958,7 @@ class HotScatter {
     }
 
     getRendererBoxBoundaries(content, limit) {
-        const length = stripAnsi(content).length
+        const length = content.replace(stripRegex, '').length
     
         if (length > limit)
             throw new Error('Box out of bounds.')

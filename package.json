@@ -15,8 +15,7 @@
   "dependencies": {
     "chalk": "^5.0.0",
     "cli-progress": "^3.10.0",
-    "keypress": "^0.2.1",
-    "strip-ansi": "^7.0.1"
+    "keypress": "^0.2.1"
   },
   "devDependencies": {
     "@types/keypress": "^2.0.30"
