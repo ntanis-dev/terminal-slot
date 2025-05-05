@@ -16,10 +16,10 @@ It allows you to play the slot game, to optimize the RTP of the game, to simulat
 - **Lines**: Allows the player to select the number of active paylines for each spin.
 - **Bet Sizes**: Provides a range of bet sizes for the player to choose from.
 - **Auto Spin**: Automatically spins until you stop it.
-- **Turbo Spin**: Spins the game and shows the outcome at the fastest possible speed.
+- **Turbo Spin**: Spins the game and shows the outcome at a faster speed.
 - **SBTW**: Also known as hyper-spin, just keep spacebar pressed for the ultimate fix.
 - **Information & Paytable**: Displays the winning combinations and their respective payouts.
-- **Replay Spin**: Allows the player to replay their last spin in the case it wasn't finished.
+- **Replay Spin**: Allows the player to replay their last spin in case it wasn't finished.
 - **Persistent Data**: Saves the player's balance and spin data between sessions.
 
 ## Installation
