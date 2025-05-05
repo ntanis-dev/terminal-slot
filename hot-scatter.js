@@ -538,6 +538,8 @@ class HotScatter {
                 }
             }
         })
+        
+        process.stdout.on('resize', () => console.clear())
 
         process.stdin.setRawMode(true)
         process.stdin.resume()
