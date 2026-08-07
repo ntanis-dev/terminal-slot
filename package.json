@@ -10,8 +10,10 @@
     "gamba": "./index.js"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "release:build": "node -e \"require('node:fs').mkdirSync('.ntanis-release',{recursive:true})\" && npm pack --pack-destination .ntanis-release"
   },
+  "files": ["index.js", "README.md", "LICENSE"],
   "dependencies": {
     "chalk": "^5.0.0",
     "cli-progress": "^3.10.0",
