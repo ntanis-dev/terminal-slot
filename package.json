@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "release:build": "node -e \"require('node:fs').mkdirSync('.ntanis-release',{recursive:true})\" && npm pack --pack-destination .ntanis-release"
+    "release:build": "node -e \"require('node:fs').mkdirSync('ntanis-release',{recursive:true})\" && npm pack --pack-destination ntanis-release"
   },
   "files": ["index.js", "README.md", "LICENSE"],
   "dependencies": {
