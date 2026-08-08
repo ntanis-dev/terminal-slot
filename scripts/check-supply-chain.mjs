@@ -6,23 +6,38 @@ const failures = []
 const read = (path) => readFileSync(resolve(root, path), 'utf8')
 const exactVersion = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/
 
-const manifest = JSON.parse(read('package.json'))
-for (const section of ['dependencies', 'devDependencies', 'optionalDependencies', 'overrides']) {
-  for (const [name, version] of Object.entries(manifest[section] ?? {})) {
-    if (!exactVersion.test(version)) failures.push(`package.json: ${section}.${name} must be exact, found ${version}`)
+const manifestPaths = []
+const competingLockfiles = []
+const ignoredDirectories = new Set(['.git', '.venv', 'build', 'dist', 'dist-electron', 'node_modules', 'out', 'server-dist'])
+const walk = (relative = '') => {
+  for (const entry of readdirSync(resolve(root, relative), { withFileTypes: true })) {
+    const path = relative ? `${relative}/${entry.name}` : entry.name
+    if (entry.isDirectory()) {
+      if (!ignoredDirectories.has(entry.name)) walk(path)
+    } else if (entry.name === 'package.json') manifestPaths.push(path)
+    else if (['package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock'].includes(entry.name)) competingLockfiles.push(path)
   }
 }
-for (const lifecycle of ['preinstall', 'install', 'postinstall']) {
-  if (manifest.scripts?.[lifecycle]) failures.push(`package.json: project lifecycle script ${lifecycle} is not allowed`)
+walk()
+
+for (const path of manifestPaths) {
+  const packageManifest = JSON.parse(read(path))
+  for (const section of ['dependencies', 'devDependencies', 'optionalDependencies', 'overrides']) {
+    for (const [name, version] of Object.entries(packageManifest[section] ?? {})) {
+      if (!exactVersion.test(version)) failures.push(`${path}: ${section}.${name} must be exact, found ${version}`)
+    }
+  }
+  for (const lifecycle of ['preinstall', 'install', 'postinstall']) {
+    if (packageManifest.scripts?.[lifecycle]) failures.push(`${path}: project lifecycle script ${lifecycle} is not allowed`)
+  }
 }
+const manifest = JSON.parse(read('package.json'))
 if (manifest.packageManager !== 'pnpm@11.15.1') failures.push('package.json: packageManager must pin pnpm@11.15.1')
 for (const script of ['security:check', 'security:signatures', 'security:vulnerabilities', 'security:sbom']) {
   if (!manifest.scripts?.[script]) failures.push(`package.json: missing ${script}`)
 }
 
-for (const path of ['package-lock.json', 'npm-shrinkwrap.json', 'yarn.lock']) {
-  if (existsSync(resolve(root, path))) failures.push(`${path}: competing lockfiles are not allowed`)
-}
+for (const path of competingLockfiles) failures.push(`${path}: competing lockfiles are not allowed`)
 for (const path of [
   'pnpm-lock.yaml',
   'pnpm-workspace.yaml',
