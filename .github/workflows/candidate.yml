@@ -12,4 +12,4 @@ jobs:
     with:
       project: terminal-slot
       build-matrix: >-
-        [{"os":"ubuntu-latest","script":"release:build","artifactDirectory":"ntanis-release","includeExtensions":"tgz","platform":"source","architecture":"any","platformSigned":false,"install":false}]
+        [{"os":"ubuntu-latest","script":"release:build","artifactDirectory":"ntanis-release","includeExtensions":"tgz","includeFiles":"*.tgz","platform":"source","architecture":"any","platformSigned":false,"install":false}]
