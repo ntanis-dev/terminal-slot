@@ -8,7 +8,7 @@ permissions:
   id-token: write
 jobs:
   candidate:
-    uses: ntanis-dev/ci/.github/workflows/project-candidate.yml@878d6a2f9f7370805310b81f343f96c280c1785f
+    uses: ntanis-dev/ci/.github/workflows/project-candidate.yml@ccae65cf74b6dd44c6b2595e8166545db69683ee
     with:
       project: terminal-slot
       build-matrix: >-
