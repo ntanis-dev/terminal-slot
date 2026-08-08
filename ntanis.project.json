@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "project": "terminal-slot",
+  "components": [
+    { "id": "source", "type": "downloadable", "publication": "manual" }
+  ]
+}
