@@ -1,5 +1,4 @@
 import fs from 'fs'
-import os from 'os'
 import path from 'path'
 import url from 'url'
 import crypto from 'crypto'
@@ -11,21 +10,6 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 const randomValue = a => a[Math.floor(Math.random() * a.length)]
 const stripRegex = new RegExp('[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?(?:\\u0007|\\u001B\\u005C|\\u009C))|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))', 'g')
-
-// Player state belongs in the user's data directory rather than beside the
-// source: an installed package may sit somewhere read-only, and a save written
-// into the checkout leaves every clone with a dirty working tree.
-const dataDirectory = process.platform === 'win32'
-    ? path.join(process.env.APPDATA || path.join(os.homedir(), 'AppData', 'Roaming'), 'terminal-slot')
-    : process.platform === 'darwin'
-        ? path.join(os.homedir(), 'Library', 'Application Support', 'terminal-slot')
-        : path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'), 'terminal-slot')
-
-const dataFile = path.join(dataDirectory, 'hot-scatter-data.json')
-
-// Earlier versions saved next to the source. That copy is still read when no
-// relocated save exists yet, so an existing balance survives the move.
-const legacyDataFile = path.join(path.dirname(url.fileURLToPath(import.meta.url)), 'hot-scatter-data.json')
 
 class HotScatter {
     constructor() {
@@ -287,7 +271,7 @@ class HotScatter {
         }
 
         try {
-            this.persistentData = JSON.parse(fs.readFileSync(fs.existsSync(dataFile) ? dataFile : legacyDataFile))
+            this.persistentData = JSON.parse(fs.readFileSync(path.join(path.dirname(url.fileURLToPath(import.meta.url)), 'hot-scatter-data.json')))
         } catch (e) { }
 
         if (typeof(this.persistentData.balance) === 'number')
@@ -577,8 +561,7 @@ class HotScatter {
     }
 
     savePersistentData() {
-        fs.mkdirSync(dataDirectory, { recursive: true })
-        fs.writeFileSync(dataFile, JSON.stringify(this.persistentData))
+        fs.writeFileSync(path.join(path.dirname(url.fileURLToPath(import.meta.url)), 'hot-scatter-data.json'), JSON.stringify(this.persistentData))
     }
 
     finalizeSpin(minMultiplier, maxMultiplier) {
