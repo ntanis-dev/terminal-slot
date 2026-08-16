@@ -1,0 +1,39 @@
+ISC License
+
+Copyright (c) 2026 Ntanis (ntanis.dev) and contributors
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+
+
+SCOPE OF THIS LICENSE
+
+The licence above covers the terminal adaptation written for this project: its
+code, presentation, and terminal rendering. It does not, and cannot, cover
+material that is not ours to license:
+
+  Game design and configuration. The reel strips, bonus reel strips, and
+  paytable in hot-scatter.js reproduce the configuration of "Hot Scatter" by
+  Amatic Industries GmbH. They were extracted from a public demo of that game
+  and are included so the adaptation behaves like the original, for study and
+  entertainment. They are not licensed by us, and nothing above grants anyone
+  rights in them.
+
+  Names and trademarks. "Hot Scatter" and "Amatic" are marks of Amatic
+  Industries GmbH, used here only to identify the game this project adapts. No
+  right in either mark is granted, and this project is not affiliated with,
+  endorsed, sponsored, or approved by Amatic Industries GmbH.
+
+  Artwork and sound. None of Amatic's artwork or audio is reproduced here; the
+  adaptation draws its own symbols in the terminal.
+
+This project involves no real money, no wagering, and no purchases.

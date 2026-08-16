@@ -1,6 +1,7 @@
 {
   "name": "terminal-slot",
   "version": "1.0.0",
+  "packageManager": "pnpm@11.15.1",
   "description": "A terminal adaptation of Amatic's \"Hot Scatter\" slot.",
   "author": "https://github.com/ntanis-dev",
   "license": "ISC",
@@ -10,14 +11,26 @@
     "gamba": "./index.js"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "release:build": "pnpm run notices && node -e \"require('node:fs').mkdirSync('ntanis-release',{recursive:true})\" && pnpm pack --pack-destination ntanis-release",
+    "security:signatures": "npm audit signatures",
+    "security:vulnerabilities": "pnpm audit --audit-level high",
+    "security:sbom": "pnpm sbom --prod --lockfile-only --sbom-format cyclonedx --sbom-spec-version 1.6 --sbom-type application --out terminal-slot.sbom.cdx.json",
+    "notices": "node scripts/generate-third-party-notices.mjs"
   },
+  "files": [
+    "index.js",
+    "hot-scatter.js",
+    "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.md"
+  ],
   "dependencies": {
-    "chalk": "^5.0.0",
-    "cli-progress": "^3.10.0",
-    "keypress": "^0.2.1"
+    "chalk": "5.4.1",
+    "cli-progress": "3.12.0",
+    "keypress": "0.2.1"
   },
   "devDependencies": {
-    "@types/keypress": "^2.0.30"
+    "@types/keypress": "2.0.30"
   }
 }

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 3,
+  "project": {
+    "id": "terminal-slot",
+    "displayName": "Terminal Slot"
+  },
+  "presentation": {
+    "status": "live",
+    "category": "Terminal game",
+    "tagline": "A slot machine that fits in a terminal.",
+    "description": "A terminal adaptation of Amatic's Hot Scatter: spinning reels, paylines, and payouts rendered entirely as text.",
+    "icon": "terminal",
+    "accent": "#eab308",
+    "downloadLabel": "Download",
+    "releaseNote": "",
+    "features": [
+      { "title": "Real reels", "description": "Spins, stops, and paylines follow the structure of the physical machine." },
+      { "title": "Nothing to install", "description": "Runs anywhere Node runs: no graphics stack and no window." }
+    ],
+    "technologies": ["Node"],
+    "gallery": []
+  },
+  "hosting": {
+    "modes": [
+      "placeholder",
+      "external"
+    ],
+    "components": []
+  },
+  "artifacts": [
+    {
+      "id": "source",
+      "publication": "manual",
+      "platform": "source",
+      "architecture": "any",
+      "formats": [
+        "tgz"
+      ]
+    }
+  ],
+  "applications": [],
+  "capabilities": {
+    "identity": false,
+    "data": false,
+    "billing": false,
+    "realtime": false,
+    "releases": true
+  },
+  "secrets": []
+}
+

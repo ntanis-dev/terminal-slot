@@ -1,0 +1,14 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    uses: ntanis-dev/ci/.github/workflows/project-validate.yml@689ac2c05a917e765ceee08d9936a6c4b39419c1
+    with:
+      project: terminal-slot
+      build-script: release:build
+
